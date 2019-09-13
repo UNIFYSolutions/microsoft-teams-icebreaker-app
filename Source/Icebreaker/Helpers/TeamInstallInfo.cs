@@ -19,7 +19,16 @@ namespace Icebreaker.Helpers
         /// This is also the Resource ID.
         /// </summary>
         [JsonIgnore]
-        public string TeamId { get; set; }
+        public string TeamId
+        {
+            get => this.PartitionKey;
+
+            set
+            {
+                this.PartitionKey = value;
+                this.RowKey = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the tenant id
