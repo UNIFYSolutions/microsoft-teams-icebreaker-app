@@ -151,7 +151,7 @@
         "gitRepoUrl": {
             "type": "string",
             "minLength": 1,
-            "defaultValue": "https://github.com/UNIFYSolutions/microsoft-teams-icebreaker-app.git",
+            "defaultValue": "https://github.com/OfficeDev/microsoft-teams-icebreaker-app.git",
             "metadata": {
               "description": "The URL to the GitHub repository to deploy."
             }
@@ -347,6 +347,22 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "[variables('storageAccountName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "accessTier": "Hot",
+                "supportsHttpsTrafficOnly": true
+            },
+            "dependsOn": [],
+            "sku": {
+                "name": "Standard_RAGRS"
+            },
+            "kind": "StorageV2",
+            "tags": {}
         },
         {
             "name": "[variables('logicAppName')]", 
