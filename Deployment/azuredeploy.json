@@ -170,7 +170,7 @@
         "botDisplayName": "[parameters('appName')]",
         "botUniqueName": "[concat(variables('baseResourceName'), '-', uniqueString(resourceGroup().id))]",
         "appServiceName": "[concat(variables('baseResourceName'), '-', uniqueString(resourceGroup().id))]",
-        "cosmosDbName":"[concat(variables('baseResourceName'), '-storage-', uniqueString(resourceGroup().id))]",
+        "storageAccountName":"[concat(variables('baseResourceName'), 'storage')]",
         "logicAppName":"[concat(variables('baseResourceName'), '-logicapp-', uniqueString(resourceGroup().id))]",
         "appInsightsName": "[variables('baseResourceName')]",
         "appHostingPlanName": "[variables('baseResourceName')]",
@@ -273,23 +273,19 @@
                             "value": "[parameters('pairingStartKey')]"
                         },
                         {
-                            "name": "CosmosDBEndpointUrl",
-                            "value": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', variables('cosmosDbName'))).documentEndpoint]"
+                            "name": "TableAccountName",
+                            "value": ""
                         },
                         {
-                            "name": "CosmosDBKey",
-                            "value": "[listKeys(concat('Microsoft.DocumentDB/databaseAccounts/', variables('cosmosDbName')), '2015-04-08').primaryMasterKey]"
+                            "name": "TableAccountKey",
+                            "value": ""
                         },
                         {
-                            "name": "CosmosDBDatabaseName",
-                            "value": "[variables('cosmosDbName')]"
-                        },
-                        {
-                            "name": "CosmosCollectionTeams",
+                            "name": "TableCollectionTeams",
                             "value": "TeamsInstalled"
                         },
                         {
-                            "name": "CosmosCollectionUsers",
+                            "name": "TableCollectionUsers",
                             "value": "UsersOptInStatus"
                         },
                         {
@@ -353,37 +349,21 @@
             ]
         },
         {
-            "name": "[variables('cosmosDbName')]",
-            "type": "Microsoft.DocumentDB/databaseAccounts",
-            "apiVersion": "2015-04-08",
+            "name": "[variables('storageAccountName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
             "location": "[parameters('location')]",
-            "kind": "GlobalDocumentDB",
-            "scale": null,
             "properties": {
-                "ipRangeFilter": "",
-                "enableAutomaticFailover": false,
-                "enableMultipleWriteLocations": true,
-                "isVirtualNetworkFilterEnabled": false,
-                "virtualNetworkRules": [],
-                "databaseAccountOfferType": "Standard",
-                "consistencyPolicy": {
-                    "defaultConsistencyLevel": "Session",
-                    "maxIntervalInSeconds": 5,
-                    "maxStalenessPrefix": 100
-                },
-                "locations": [
-                    {
-                        "locationName": "[parameters('location')]",
-                        "provisioningState": "Succeeded",
-                        "failoverPriority": 0
-                    }
-                ],
-                "capabilities": []
+                "accessTier": "Hot",
+                "supportsHttpsTrafficOnly": true
             },
-            "tags": {
-                "defaultExperience": "Core (SQL)"
-            }
-        }, 
+            "dependsOn": [],
+            "sku": {
+                "name": "Standard_RAGRS"
+            },
+            "kind": "StorageV2",
+            "tags": {}
+        },
         {
             "name": "[variables('logicAppName')]", 
             "type": "Microsoft.Logic/workflows", 
