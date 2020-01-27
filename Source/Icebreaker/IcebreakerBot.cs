@@ -30,6 +30,7 @@ namespace Icebreaker
         private readonly string botDisplayName;
         private readonly string botId;
         private readonly bool isTesting;
+        private readonly string[] blacklistedUserIds;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IcebreakerBot"/> class.
@@ -44,6 +45,7 @@ namespace Icebreaker
             this.botDisplayName = CloudConfigurationManager.GetSetting("BotDisplayName");
             this.botId = CloudConfigurationManager.GetSetting("MicrosoftAppId");
             this.isTesting = Convert.ToBoolean(CloudConfigurationManager.GetSetting("Testing"));
+            this.blacklistedUserIds = CloudConfigurationManager.GetSetting("EmailBlacklist")?.Split(',');
         }
 
         /// <summary>
@@ -83,7 +85,6 @@ namespace Icebreaker
 
                         var teamName = await this.GetTeamNameAsync(connectorClient, team.TeamId);
                         var optedInUsers = await this.GetOptedInUsers(connectorClient, team);
-
                         foreach (var pair in this.MakePairs(optedInUsers).Take(this.maxPairUpsPerTeam))
                         {
                             usersNotifiedCount += await this.NotifyPair(connectorClient, team.TenantId, teamName, pair);
@@ -395,9 +396,8 @@ namespace Icebreaker
 
             var tasks = members.Select(m => this.dataProvider.GetUserInfoAsync(m.AsTeamsChannelAccount().ObjectId));
             var results = await Task.WhenAll(tasks);
-
             return members
-                .Zip(results, (member, userInfo) => ((userInfo == null) || userInfo.OptedIn) ? member : null)
+                .Zip(results, (member, userInfo) => ((userInfo == null) || userInfo.OptedIn || !blacklistedUserIds.Contains(userInfo.UserId)) ? member : null)
                 .Where(m => m != null)
                 .ToList();
         }
