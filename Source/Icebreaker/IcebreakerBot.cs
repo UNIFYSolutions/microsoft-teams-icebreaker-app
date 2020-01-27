@@ -396,8 +396,9 @@ namespace Icebreaker
 
             var tasks = members.Select(m => this.dataProvider.GetUserInfoAsync(m.AsTeamsChannelAccount().ObjectId));
             var results = await Task.WhenAll(tasks);
+            var filteredResults = results.Where(a => !this.blacklistedUserIds.Contains(a.UserId)).ToArray();
             return members
-                .Zip(results, (member, userInfo) => ((userInfo == null) || userInfo.OptedIn || !blacklistedUserIds.Contains(userInfo.UserId)) ? member : null)
+                .Zip(filteredResults, (member, userInfo) => ((userInfo == null) || userInfo.OptedIn) ? member : null)
                 .Where(m => m != null)
                 .ToList();
         }
