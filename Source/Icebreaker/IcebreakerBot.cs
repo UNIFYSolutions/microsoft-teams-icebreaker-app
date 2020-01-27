@@ -45,7 +45,7 @@ namespace Icebreaker
             this.botDisplayName = CloudConfigurationManager.GetSetting("BotDisplayName");
             this.botId = CloudConfigurationManager.GetSetting("MicrosoftAppId");
             this.isTesting = Convert.ToBoolean(CloudConfigurationManager.GetSetting("Testing"));
-            this.blacklistedUserIds = CloudConfigurationManager.GetSetting("EmailBlacklist")?.Split(',');
+            this.blacklistedUserIds = CloudConfigurationManager.GetSetting("UserIdBlackList")?.Split(',');
         }
 
         /// <summary>
