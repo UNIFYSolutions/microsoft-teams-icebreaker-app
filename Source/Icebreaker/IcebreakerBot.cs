@@ -30,7 +30,7 @@ namespace Icebreaker
         private readonly string botDisplayName;
         private readonly string botId;
         private readonly bool isTesting;
-        private readonly string[] blacklistedUserIds;
+        private readonly string[] blacklistedUserIds = new string[0];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IcebreakerBot"/> class.
@@ -396,11 +396,11 @@ namespace Icebreaker
 
             var tasks = members.Select(m => this.dataProvider.GetUserInfoAsync(m.AsTeamsChannelAccount().ObjectId));
             var results = await Task.WhenAll(tasks);
-            var filteredResults = results.Where(a => !this.blacklistedUserIds.Contains(a.UserId)).ToArray();
-            return members
-                .Zip(filteredResults, (member, userInfo) => ((userInfo == null) || userInfo.OptedIn) ? member : null)
+            var members2 = members
+                .Zip(results, (member, userInfo) => ((userInfo == null) || userInfo.OptedIn) ? member : null)
                 .Where(m => m != null)
                 .ToList();
+            return members2.Where(a => !this.blacklistedUserIds.Contains(a.Properties.GetValue("objectId").ToString())).ToList();
         }
 
         private List<Tuple<ChannelAccount, ChannelAccount>> MakePairs(List<ChannelAccount> users)

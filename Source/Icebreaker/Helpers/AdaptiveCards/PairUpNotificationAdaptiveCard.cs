@@ -67,7 +67,6 @@ namespace Icebreaker.Helpers.AdaptiveCards
                 { "matchUpCardContentPart1", matchUpCardContentPart1 },
                 { "matchUpCardContentPart2", matchUpCardContentPart2 },
                 { "chatWithMatchButtonText", chatWithMatchButtonText },
-                { "pauseMatchesButtonText", pauseMatchesButtonText },
                 { "proposeMeetupButtonText", proposeMeetupButtonText },
                 { "meetingLink", meetingLink },
                 { "personUpn", recipientUpn }

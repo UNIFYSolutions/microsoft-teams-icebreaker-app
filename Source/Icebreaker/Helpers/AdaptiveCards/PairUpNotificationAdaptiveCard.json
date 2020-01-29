@@ -55,17 +55,6 @@
       "type": "Action.OpenUrl",
       "title": "%proposeMeetupButtonText%",
       "url": "%meetingLink%"
-    },
-    {
-      "type": "Action.Submit",
-      "title": "%pauseMatchesButtonText%",
-      "data": {
-        "msteams": {
-          "type": "messageBack",
-          "displayText": "%pauseMatchesButtonText%",
-          "text": "optout"
-        }
-      }
     }
   ],
   "version": "1.0"

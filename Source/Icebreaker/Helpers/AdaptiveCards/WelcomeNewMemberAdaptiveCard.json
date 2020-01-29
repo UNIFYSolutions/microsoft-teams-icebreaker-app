@@ -47,17 +47,6 @@
       "type": "Action.OpenUrl",
       "title": "%tourButtonText%",
       "url": "%tourUrl%"
-    },
-    {
-      "type": "Action.Submit",
-      "title": "%pauseMatchesText%",
-      "data": {
-        "msteams": {
-          "type": "messageBack",
-          "displayText": "%pauseMatchesText%",
-          "text": "optout"
-        }
-      }
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",

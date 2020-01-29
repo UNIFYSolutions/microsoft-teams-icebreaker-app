@@ -72,7 +72,6 @@ namespace Icebreaker.Helpers.AdaptiveCards
                 { "introMessagePart2", introMessagePart2 },
                 { "introMessagePart3", introMessagePart3 },
                 { "welcomeCardImageUrl", welcomeCardImageUrl },
-                { "pauseMatchesText", pauseMatchesText },
                 { "tourUrl", tourUrl },
                 { "salutationText", salutationText },
                 { "tourButtonText", tourButtonText }
